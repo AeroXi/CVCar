@@ -3,10 +3,14 @@ def p_control(position, p):
     return angle
 
 
-# def get_angle():
-#
-#     angle = p_control(position, p)
-#     return angle
+def get_angle(position, p):
+    angle = p_control(position, p)
+    if angle in range(-45, 45):
+        return angle
+    elif angle > 45:
+        return 45
+    elif angle < -45:
+        return -45
 
 
 def main():

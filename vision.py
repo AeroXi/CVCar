@@ -4,8 +4,8 @@ cap = cv2.VideoCapture(0)
 
 def process(image):
     height, width, depth = image.shape
-    half_width = width / 40
-    image = cv2.resize(image, (int(width/20), int(height/20)), interpolation=cv2.INTER_AREA)
+    half_width = width / 20
+    image = cv2.resize(image, (int(width/10), int(height/10)), interpolation=cv2.INTER_AREA)
     gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     blur = cv2.GaussianBlur(gray, (11, 11),0)
     ret,thresh = cv2.threshold(blur, 140, 255, cv2.THRESH_BINARY)
@@ -14,13 +14,12 @@ def process(image):
     try:
         cnt = contours[0]
         M = cv2.moments(cnt)
-        cx = int(M['m10']/M['m00'])
+        centroid_x = int(M['m10']/M['m00'])
         cy = int(M['m01']/M['m00'])
-        cv2.line(image, (cx, 0), (cx, 255), (200, 0, 0))
-
-        position = cx - half_width
+        cv2.line(image, (centroid_x, 0), (centroid_x, 255), (200, 0, 0))
+        position = centroid_x - half_width
     except:
-        position = -100
+        position = -1000
         pass
     return image, position
 
